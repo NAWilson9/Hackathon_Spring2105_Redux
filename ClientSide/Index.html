@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="hackathonApp">
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
@@ -44,7 +44,11 @@
     </div>
 
     <div class="row">
-        <div ng-view></div>
+        <div class="col-md-6" ng-view>
+
+        </div>
+        <div class="col-md-6" ng-include=" '/templates/chat.html' ">
+        </div>
     </div>
 
     <!-- FOOTER -->

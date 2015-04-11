@@ -4,6 +4,21 @@
 
 /// CONTROLLER DEFINITIONS
 
+var chatArray = [];
+function chatController($scope){
+	function Message(name, msg){
+		return {name:name,msg:msg};
+	}
+	// temp debug
+	chatArray = [
+		Message('hello','world'),
+		Message('foo','bar'),
+		Message('longcat','The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log.')
+	];
+	// end
+	$scope.messages = chatArray;
+}
+
 function splashController($scope){
 	$scope.hello = "world";
 	console.log("splash controller loaded");
@@ -19,11 +34,16 @@ var app = angular.module(
 
 /// CONTROLLERS
 
-app.controller('splashController',
-[
-	'$scope',
-	splashController
-]);
+function default_registerController(name, cb){
+	app.controller(name,
+		[
+			'$scope',
+			cb
+		]);
+}
+
+default_registerController('splashController', splashController);
+default_registerController('chatController', chatController);
 
 // todo add more controllers here
 

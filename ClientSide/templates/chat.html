@@ -1,0 +1,13 @@
+<div ng-controller="chatController">
+<h2>
+    this is chat, hello
+</h2>
+
+    <div ng-repeat="message in messages">
+        <div class="panel panel-default">
+            <div class="panel-heading"> {{ message.name }} </div>
+             <div class="panel-body">{{ message.msg }}</div>
+        </div>
+    </div>
+end
+</div>
