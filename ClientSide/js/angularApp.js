@@ -20,8 +20,8 @@ function chatController($scope){
 		updateSteamInfo();
 	});
 
-	function Message(id, name, msg){
-		return {name:name,msg:msg};
+	function Message(name, avatar, msg){
+		return {name:name, avatar:avatar, msg:msg};
 	}
 	$scope.messages = [];
 	$scope.username = 'Inigo Montoya';
@@ -35,7 +35,7 @@ function chatController($scope){
 			return;
 		}
 
-		var msg = Message($scope.steamID, $scope.username, cmsg);
+		var msg = Message($scope.username, $scope.avatarUrl, cmsg);
 		socket.emit("say", JSON.stringify(msg));
 		$scope.chatMessage = "";
 	};

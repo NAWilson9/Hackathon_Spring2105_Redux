@@ -21,3 +21,8 @@ footer{
 .half {
     width:49%;
 }
+
+.avatar {
+    width:30px;
+    height:30px;
+}

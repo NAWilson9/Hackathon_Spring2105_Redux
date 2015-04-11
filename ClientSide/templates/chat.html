@@ -2,7 +2,7 @@
     <div class="panel panel-primary">
 
     <div class="panel-body">
-        <img class="pull-left" ng-src="{{ avatarUrl }}" style="width:40px;height:40px;display:block;border:2px solid black;"/>
+        <img class="pull-left" ng-src="{{ avatarUrl }}" style="width:50px;height:50px;display:block;border:2px solid black;"/>
         <h2 class="pull-left">
             <small class="">Name:</small> {{ username }}
         </h2>
@@ -23,8 +23,10 @@
 
         <div ng-repeat="message in messages">
             <div class="panel panel-default">
-                <div class="panel-heading"> {{ message.name }} </div>
-                 <div class="panel-body">{{ message.msg }}</div>
+                <div class="panel-body">
+                    <img class="avatar" ng-src="{{message.avatar}}"/>
+                    {{ message.name }}: {{ message.msg }}
+                </div>
             </div>
         </div>
 
