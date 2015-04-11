@@ -1,24 +1,33 @@
 <div ng-controller="chatController">
-    <br/>
-    <div class="panel panel-body">
+    <div class="panel panel-primary">
 
-    <h4 class="form-inline">
-        <label ng-init="username = 'Inigo Montoya'">
-            Hello, my name is <input type="text" class="form-control" ng-model="username"/>
-        </label>
-    </h4>
-    <form ng-submit="sendChat()" class="form-inline">
-        <label>
-            Say: <input type="text" class="form-control" ng-model="chatMessage" />
-        </label>
-        <input type="submit" value="Send"/>
-    </form>
+    <div class="panel-body">
+        <img class="pull-left" ng-src="{{ avatarUrl }}" style="width:40px;height:40px;display:block;border:2px solid black;"/>
+        <h2 class="pull-left">
+            <small class="">Name:</small> {{ username }}
+        </h2>
+        <br style="clear:both;"/>
+        <div class="form-group">
+        <label>Steam ID:</label>
+        <input type="text" class="form-control" ng-model="steamID"/>
 
-    <div ng-repeat="message in messages">
-        <div class="panel panel-default">
-            <div class="panel-heading"> {{ message.name }} </div>
-             <div class="panel-body">{{ message.msg }}</div>
+
+        <form ng-submit="sendChat()">
+            <label>Say:</label>
+            <input type="text" class="form-control" ng-model="chatMessage" />
+            <!--<input type="submit" value="Send"/>-->
+        </form>
         </div>
+
+        <hr/>
+
+        <div ng-repeat="message in messages">
+            <div class="panel panel-default">
+                <div class="panel-heading"> {{ message.name }} </div>
+                 <div class="panel-body">{{ message.msg }}</div>
+            </div>
+        </div>
+
     </div>
 
     </div>

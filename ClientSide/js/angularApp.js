@@ -3,32 +3,39 @@
  */
 
 /// CONTROLLER DEFINITIONS
-
-var chatArray = [];
 function chatController($scope){
-	function Message(name, msg){
+	function updateSteamInfo(){
+		socket.emit('steamInfo', $scope.steamID);
+	}
+	socket.on('steamInfoReturn', function(data){
+		data = JSON.parse(data);
+		var url = data.response.players[0].avatar;
+		var name = data.response.players[0].personaname;
+		$scope.avatarUrl = url?url:"";
+		$scope.username = name?name:"Anon";
+		$scope.$apply();
+	});
+
+	$scope.$watch('steamID', function(){
+		updateSteamInfo();
+	});
+
+	function Message(id, name, msg){
 		return {name:name,msg:msg};
 	}
-	// temp debug
-	chatArray = [
-		Message('hello','world'),
-		Message('foo','bar'),
-		Message('longcat','The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log.')
-	];
-	// end
 	$scope.messages = [];
+	$scope.username = 'Inigo Montoya';
+	$scope.steamID = "";
 
-	//$scope.username = "Inigo Montoya";
-	//$scope.chatMessage = "";
+	var oldname = $scope.username;
 
 	$scope.sendChat = function(){
-		var name = $scope.username;
 		var cmsg = $scope.chatMessage;
 		if(cmsg.length < 1){
 			return;
 		}
 
-		var msg = Message(name, cmsg);
+		var msg = Message($scope.steamID, $scope.username, cmsg);
 		socket.emit("say", JSON.stringify(msg));
 		$scope.chatMessage = "";
 	};

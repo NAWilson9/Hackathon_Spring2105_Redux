@@ -53,10 +53,20 @@ io.on('connection', function (socket) {
         };
         var item = soundCloudParser(link, callback);
     });
-    socket.on('say', function(data){
+
+	socket.on('say', function(data){
         // so trash, I'm sorry
         socket.broadcast.emit('hear', data);
         socket.emit('hear', data);
     });
+
+	socket.on('steamInfo',function(data){
+		var url = "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=46E787DD72E329DAA831E4422883B5DE&steamids="+data;
+
+		request(url, function(error, response, html){
+			socket.emit('steamInfoReturn',html);
+		});
+	});
+
 });
 

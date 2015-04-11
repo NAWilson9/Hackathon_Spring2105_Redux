@@ -22,44 +22,43 @@
     </script>
 </head>
 <body background="./img/flanl.PNG" onload="scInit();">
+<div>
 <span onclick="mediaControl('play')">Play</span>
 <span onclick="mediaControl('pause')">Pause</span>
 <span onclick="mediaControl('next')">Next</span>
 <span onclick="mediaControl('previous')">Previous</span>
 <span onclick="queueItem('https://soundcloud.com/skrillex/ragga-bomb-teddy-killerz-remix?in=nawilson9/sets/filth')";>Test Post</span>
+</div>
+
+<br class="clearfix"/>
+
 <div id="body-container">
-    <div class="fluid-container">
-        <!-- HEADER -->
-        <header class="row">
-            <!--<div class="col-sm-6 bg-info">
-                <a class="">
-                    &lt;!&ndash; todo BANNER &ndash;&gt;
-                </a>
-            </div>
-            <div class="col-sm-6" ng-controller="loginController">
-                &lt;!&ndash;<div ng-if="user.loggedIn">
-                    <button class="btn btn-primary btn-large">Logout</button>
-                </div>
-                <div ng-if="!user.loggedIn">
-                    <button class="btn btn-primary btn-large" data-toggle="collapse" data-target="#loginForm">Login</button>
-                    <div id="loginForm" class="collapse in">
-                        &lt;!&ndash; todo add login form here &ndash;&gt;
-                        LOGIN FORM GOES HERE
-                    </div>
-                </div>&ndash;&gt;
-            </div>-->
-        </header>
+    <br/>
+    <div class="container-fluid">
 
         <div class="row">
-            <div class="col-xs-6" ng-view>
-
+            <div class="pull-left half">
+                <div class="panel panel-default">
+                    <div class=" panel-body">
+                        <!-- HEADER -->
+                        <header class="row">
+                            <h1 class="text-center">
+                                FLANL
+                            </h1>
+                            <!-- navbar, todo -->
+                        </header>
+                        <div ng-view></div>
+                    </div>
+                </div>
             </div>
-            <div class="col-xs-6" ng-include=" '/templates/chat.html' ">
+            <div class="pull-right half" ng-include=" '/templates/chat.html' ">
             </div>
         </div>
 
     </div>
+    <br/>
 </div>
+
 <!-- FOOTER -->
 <footer class="bg-info">
     <h5 class="text-center">

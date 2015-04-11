@@ -1,4 +1,4 @@
-footer {
+footer{
     display:block;
     position:fixed;
     bottom:0;
@@ -15,4 +15,9 @@ footer {
     bottom:50px;
     overflow-x:hidden;
     overflow-y:auto;
+    min-width:600px;
+}
+
+.half {
+    width:49%;
 }
