@@ -1,16 +1,28 @@
 //Link dependencies
 var express = require('express');
-//var bodyParser = require('body-parser');
-var fs = require("fs");
 
-//Create server
-var path = require('path');
-var server = express();
-var http = require('http').Server(server);
-var io = require('socket.io')(http);
-server.use(express.static('../ClientSide/'));
+//Setup server
+var app = express();
+app.use(express.static('../ClientSide/'));
 
-//Start server
-server.listen(1337, function() {
+//Start web server
+var server = app.listen(1337, function() {
     console.log('Hackathon server running on port ' + 1337);
+});
+
+/*
+Express routes
+ */
+//server.get('/nah, function(req, res){};
+
+/*
+Websocket stuff
+ */
+
+//Start websocket server
+var io = require('socket.io').listen(server);
+
+//Socket routes
+io.on('connection', function (socket) {
+    socket.emit('noob', "rick");
 });
