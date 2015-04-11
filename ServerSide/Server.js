@@ -25,4 +25,11 @@ var io = require('socket.io').listen(server);
 //Socket routes
 io.on('connection', function (socket) {
     socket.emit('noob', "rick");
+
+
+	socket.on('say', function(data){
+		// so trash, I'm sorry
+		socket.broadcast.emit('hear', data);
+		socket.emit('hear', data);
+	});
 });

@@ -16,7 +16,27 @@ function chatController($scope){
 		Message('longcat','The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log. The quick lazy fox jumped over the brown log.')
 	];
 	// end
-	$scope.messages = chatArray;
+	$scope.messages = [];
+
+	//$scope.username = "Inigo Montoya";
+	//$scope.chatMessage = "";
+
+	$scope.sendChat = function(){
+		var name = $scope.username;
+		var cmsg = $scope.chatMessage;
+		if(cmsg.length < 1){
+			return;
+		}
+
+		var msg = Message(name, cmsg);
+		socket.emit("say", JSON.stringify(msg));
+		$scope.chatMessage = "";
+	};
+
+	socket.on("hear", function(data){
+		$scope.messages.unshift(JSON.parse(data));
+		$scope.$apply();
+	});
 }
 
 function splashController($scope){
