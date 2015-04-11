@@ -9,6 +9,8 @@
     <script src="./js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css" />
     <script src="./socket.io/socket.io.js"></script>
+    <script src="http://connect.soundcloud.com/sdk.js"></script>
+    <script src="./js/soundcloud.js"></script>
 
     <script src="./js/angularApp.js"></script>
     <link rel="stylesheet" type="text/css" href="./css/main.css" />
@@ -19,7 +21,12 @@
         });
     </script>
 </head>
-<body background="./img/flanl.PNG">
+<body background="./img/flanl.PNG" onload="scInit();">
+<span onclick="mediaControl('play')">Play</span>
+<span onclick="mediaControl('pause')">Pause</span>
+<span onclick="mediaControl('next')">Next</span>
+<span onclick="mediaControl('previous')">Previous</span>
+<span onclick="queueItem('https://soundcloud.com/skrillex/ragga-bomb-teddy-killerz-remix?in=nawilson9/sets/filth')";>Test Post</span>
 <div id="body-container">
     <div class="fluid-container">
         <!-- HEADER -->
