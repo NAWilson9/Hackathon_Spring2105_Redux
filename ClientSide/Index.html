@@ -1,9 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="hackathonApp">
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
-    <script src="http://localhost:1337/socket.io/socket.io.js"></script>
+    <script src="/js/angular.min.js"></script>
+    <script src="/js/angular-route.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+
+    <script src="/js/angularApp.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
     <script>
         var socket = io.connect('http://localhost:1337');
         socket.on('noob', function (data) {
@@ -12,6 +19,46 @@
     </script>
 </head>
 <body>
-lol
+
+<div class="fluid-container">
+    <!-- HEADER -->
+    <div class="row">
+        <!--<div class="col-sm-6 bg-info">
+            <a class="">
+                EzE
+                &lt;!&ndash; todo BANNER &ndash;&gt;
+            </a>
+        </div>
+        <div class="col-sm-6" ng-controller="loginController">
+            &lt;!&ndash;<div ng-if="user.loggedIn">
+                <button class="btn btn-primary btn-large">Logout</button>
+            </div>
+            <div ng-if="!user.loggedIn">
+                <button class="btn btn-primary btn-large" data-toggle="collapse" data-target="#loginForm">Login</button>
+                <div id="loginForm" class="collapse in">
+                    &lt;!&ndash; todo add login form here &ndash;&gt;
+                    LOGIN FORM GOES HERE
+                </div>
+            </div>&ndash;&gt;
+        </div>-->
+    </div>
+
+    <div class="row">
+        <div ng-view></div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="row">
+        <h5 class="text-center">
+            <small>
+                Developed by "The Mavericks" for the Spring 2015 Hackathon at ISU
+                <br/>
+                Nick Wilson, Chris Helmick, Rick Strohman &copy; 2015
+            </small>
+        </h5>
+    </div>
+
+</div>
+
 </body>
 </html>
