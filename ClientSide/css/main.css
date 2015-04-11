@@ -1,0 +1,18 @@
+footer {
+    display:block;
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    height:50px;
+}
+
+#body-container{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    bottom:50px;
+    overflow-x:hidden;
+    overflow-y:auto;
+}

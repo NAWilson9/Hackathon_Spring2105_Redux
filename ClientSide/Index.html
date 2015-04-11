@@ -11,6 +11,7 @@
     <script src="./socket.io/socket.io.js"></script>
 
     <script src="./js/angularApp.js"></script>
+    <link rel="stylesheet" type="text/css" href="./css/main.css" />
     <script>
         var socket = io.connect('http://localhost:1337');
         socket.on('noob', function (data) {
@@ -18,51 +19,50 @@
         });
     </script>
 </head>
-<body>
-
-<div class="fluid-container">
-    <!-- HEADER -->
-    <div class="row">
-        <!--<div class="col-sm-6 bg-info">
-            <a class="">
-                EzE
-                &lt;!&ndash; todo BANNER &ndash;&gt;
-            </a>
-        </div>
-        <div class="col-sm-6" ng-controller="loginController">
-            &lt;!&ndash;<div ng-if="user.loggedIn">
-                <button class="btn btn-primary btn-large">Logout</button>
+<body background="./img/flanl.PNG">
+<div id="body-container">
+    <div class="fluid-container">
+        <!-- HEADER -->
+        <header class="row">
+            <!--<div class="col-sm-6 bg-info">
+                <a class="">
+                    &lt;!&ndash; todo BANNER &ndash;&gt;
+                </a>
             </div>
-            <div ng-if="!user.loggedIn">
-                <button class="btn btn-primary btn-large" data-toggle="collapse" data-target="#loginForm">Login</button>
-                <div id="loginForm" class="collapse in">
-                    &lt;!&ndash; todo add login form here &ndash;&gt;
-                    LOGIN FORM GOES HERE
+            <div class="col-sm-6" ng-controller="loginController">
+                &lt;!&ndash;<div ng-if="user.loggedIn">
+                    <button class="btn btn-primary btn-large">Logout</button>
                 </div>
-            </div>&ndash;&gt;
-        </div>-->
-    </div>
+                <div ng-if="!user.loggedIn">
+                    <button class="btn btn-primary btn-large" data-toggle="collapse" data-target="#loginForm">Login</button>
+                    <div id="loginForm" class="collapse in">
+                        &lt;!&ndash; todo add login form here &ndash;&gt;
+                        LOGIN FORM GOES HERE
+                    </div>
+                </div>&ndash;&gt;
+            </div>-->
+        </header>
 
-    <div class="row">
-        <div class="col-md-6" ng-view>
+        <div class="row">
+            <div class="col-xs-6" ng-view>
 
+            </div>
+            <div class="col-xs-6" ng-include=" '/templates/chat.html' ">
+            </div>
         </div>
-        <div class="col-md-6" ng-include=" '/templates/chat.html' ">
-        </div>
-    </div>
 
-    <!-- FOOTER -->
-    <div class="row">
-        <h5 class="text-center">
-            <small>
-                Developed by "The Mavericks" for the Spring 2015 Hackathon at ISU
-                <br/>
-                Nick Wilson, Chris Helmick, Rick Strohman &copy; 2015
-            </small>
-        </h5>
     </div>
-
 </div>
+<!-- FOOTER -->
+<footer class="bg-info">
+    <h5 class="text-center">
+        <small>
+            Developed by "The Mavericks" for the Spring 2015 Hackathon at ISU
+            <br/>
+            Nick Wilson, Chris Helmick, Rick Strohman &copy; 2015
+        </small>
+    </h5>
+</footer>
 
 </body>
 </html>
