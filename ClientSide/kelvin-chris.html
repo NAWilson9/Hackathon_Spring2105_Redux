@@ -1,29 +1,23 @@
-<!DOCTYPE html>
 <html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-    <script>
-        window.onload = function(){
-            var i = document.getElementById('photo');
-            function randomize(){
-                var x = 200 + Math.random() * 20 - 10;
-                var y = 200 + Math.random() * 20 - 10;
-                i.style.top = y + "px";
-                i.style.left = x + "px";
-            }
-            window.setInterval(randomize,10);
-        }
-    </script>
+<head>
+<script>
+window.onload = function(){
+var i = document.getElementById('photo');
+function randomize(){
+    var x = 200 + Math.random() * 20 - 10;
+    var y = 200 + Math.random() * 20 - 10;
+    i.style.top = y + "px";
+    i.style.left = x + "px";
+}
+window.setInterval(randomize,10);
+}
+</script>
 </head>
 <body background="http://i517.photobucket.com/albums/u333/PhotoPun/explosion.gif">
-
 <div style="position:absolute;" id="photo">
 <img width="200" height="200"  src="https://pbs.twimg.com/media/CCU4fETUMAEAs1X.jpg:large"/>
-<h1>
-    Maximum Over Kelvin
+<h1>Maximum Over Kelvin
 </h1>
 </div>
-
 </body>
 </html>
