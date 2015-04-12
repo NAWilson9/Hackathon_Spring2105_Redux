@@ -149,7 +149,7 @@ io.on('connection', function (socket) {
 			if(connection_map.hasOwnProperty(key)){
 				var el = connection_map[key];
 				if(el){
-					list.push(el.name);
+					list.push({name:el.name});
 				}
 			}
 		}

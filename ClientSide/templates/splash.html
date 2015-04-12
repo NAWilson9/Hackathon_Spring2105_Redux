@@ -1,11 +1,11 @@
-<div ng-controller="splashController">
+<div id="splashScrollContainer" class="scrollContainer">
     <h2 class="text-center">
         Welcome to FLANL.
     </h2>
     Current users online:
     <ul>
-       <div ng-repeat="name in playerNames">
-           <li>{{ name }}</li>
-       </div>
+       <li ng-repeat="player in playerNames">
+          {{ player.name }}
+       </li>
     </ul>
 </div>

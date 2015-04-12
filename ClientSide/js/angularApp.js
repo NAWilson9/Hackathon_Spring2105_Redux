@@ -47,7 +47,10 @@ function chatController($scope){
 }
 
 function splashController($scope){
-	$scope.hello = "world";
+	$scope.playerNames = [];
+	//function wrap(n){return {name:n};}// todo delete
+	//for(var i=0;i<50;i++){$scope.playerNames.push(wrap("John Doe"));}
+
 	//$scope.playerNames = playerNames;
 	socket.on("updateOnlineNames", function(listStr){
 		$scope.playerNames = JSON.parse(listStr);
@@ -81,10 +84,6 @@ function musicController($scope){
         $scope.songs = songs;
         $scope.$apply();
     });
-
-    $scope.updateSongs = function(){
-        socket.on
-    }
 
 }
 
