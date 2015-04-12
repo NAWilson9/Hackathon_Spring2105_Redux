@@ -62,3 +62,7 @@ footer{
     max-height:80px;
     margin:10px;
 }
+
+.superSmall{
+    font-size:.4em;
+}
