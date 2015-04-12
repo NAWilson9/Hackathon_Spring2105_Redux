@@ -1,10 +1,12 @@
 <div ng-controller="chatController" class="hundredHeight">
     <div class="panel panel-primary hundredHeight">
         <div class="panel-body hundredHeight">
-            <img class="pull-left" ng-src="{{ avatarUrl }}" style="width:50px;height:50px;display:block;border:2px solid black;"/>
-            <h2 class="pull-left">
-                <small class="">Name:</small> {{ username }}
-            </h2>
+            <span ng-if="username">
+                <img class="pull-left" ng-src="{{ avatarUrl }}" style="width:50px;height:50px;display:block;border:2px solid black;"/>
+                <h2 class="pull-left">
+                    <small class="">Name:</small> {{ username }}
+                </h2>
+            </span>
             <br style="clear:both;"/>
             <div class="form-group">
                 <label>Steam ID:</label>

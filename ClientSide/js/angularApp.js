@@ -9,10 +9,17 @@ function chatController($scope){
 	}
 	socket.on('steamInfoReturn', function(data){
 		data = JSON.parse(data);
-		var url = data.response.players[0].avatar;
-		var name = data.response.players[0].personaname;
-		$scope.avatarUrl = url?url:"";
-		$scope.username = name?name:"Anon";
+		var players = data.response.players;
+		if(players.length<1){
+			$scope.avatarUrl = 0;
+			$scope.username = 0;
+		}
+		else{
+			var url = players[0].avatar;
+			var name = players[0].personaname;
+			$scope.avatarUrl = url ? url : 0;
+			$scope.username = name ? name : 0;
+		}
 		$scope.$apply();
 	});
 
@@ -24,7 +31,7 @@ function chatController($scope){
 		return {name:name, avatar:avatar, msg:msg};
 	}
 	$scope.messages = [];
-	$scope.username = 'Inigo Montoya';
+	$scope.username = 0;
 	$scope.steamID = "";
 
 	var oldname = $scope.username;

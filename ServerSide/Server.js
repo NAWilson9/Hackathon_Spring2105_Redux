@@ -247,17 +247,21 @@ io.on('connection', function (socket) {
 					id:id,
 					name:name
 				};
-
-				var str = JSON.stringify(getOnlineNames());
-                socket.broadcast.emit('updateOnlineNames', str);
-                socket.emit('updateOnlineNames', str);
-                getGameTallies(function (data) {
-                    socket.broadcast.emit('updateGameTallies', data);
-                    socket.emit('updateGameTallies', data);
-                });
             }
             catch (ignored) {
+				connection_map[random] = null;
             }
+
+			var str = JSON.stringify(getOnlineNames());
+
+			socket.broadcast.emit('updateOnlineNames', str);
+			socket.emit('updateOnlineNames', str);
+
+			getGameTallies(function (data) {
+				socket.broadcast.emit('updateGameTallies', data);
+				socket.emit('updateGameTallies', data);
+			});
+
             socket.emit('steamInfoReturn', html);
         });
     });
