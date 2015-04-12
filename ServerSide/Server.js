@@ -12,7 +12,7 @@ var songList = [];
 
 //Start web server
 var server = app.listen(1337, function () {
-    console.log('Hackathon server running on port ' + 1337);
+    console.log('FLANL server running on port ' + 1337);
 });
 
 /*
@@ -40,9 +40,6 @@ io.on('connection', function (socket) {
     var updateSongList = function(isStarted){
         songList = songQueue.slice(0,6);
         songList[0].current = true;
-        if(songQueue.length > 1 && !wasPrevious){
-            songList.unshift(songQueue[songQueue.length - 1]);
-        }
     };
 
     var random;
@@ -116,6 +113,7 @@ io.on('connection', function (socket) {
             } else if(isStarted == true && preAddQuantity < 8){
                 updateSongList(isStarted);
                 socket.emit('updateSongList', songList);
+                socket.broadcast.emit('updateSongList', songList);
             }
         };
 

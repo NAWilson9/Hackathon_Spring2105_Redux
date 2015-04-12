@@ -2,6 +2,7 @@
  * Created by Nick on 4/11/2015.
  */
 var soundObject;
+var isMuted = false;
 
 //Initializes SoundCloud stuff
 var scInit = function(){
@@ -14,6 +15,7 @@ var scInit = function(){
     socket.on('loadSoundCloudItem', function(data){
         SC.stream('/' + data.kind + '/' + data.id, function(sound){
             soundObject = sound;
+            if(isMuted){toggleMute()}
             soundObject.play({
                 onfinish: function() {
                     socket.emit('loadNextSong', 'omfgThisAppSucks');
@@ -31,11 +33,6 @@ var queueItem = function(link){
 var toggleMute = function() {
     soundObject.toggleMute();
 };
-
-//Sets the volume of the SoundCloud player
-var setVolume = function(value){
-    soundObject.setVolume(value);
-}
 
 
 
