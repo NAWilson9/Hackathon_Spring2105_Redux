@@ -252,15 +252,7 @@ io.on('connection', function (socket) {
 				connection_map[random] = null;
             }
 
-			var str = JSON.stringify(getOnlineNames());
-
-			socket.broadcast.emit('updateOnlineNames', str);
-			socket.emit('updateOnlineNames', str);
-
-			getGameTallies(function (data) {
-				socket.broadcast.emit('updateGameTallies', data);
-				socket.emit('updateGameTallies', data);
-			});
+			updateAllOfTheThings();
 
             socket.emit('steamInfoReturn', html);
         });
@@ -268,7 +260,20 @@ io.on('connection', function (socket) {
 
     socket.on('disconnect', function () {
         connection_map[random] = null;
+		updateAllOfTheThings();
     });
+
+	function updateAllOfTheThings(){
+		var str = JSON.stringify(getOnlineNames());
+
+		socket.broadcast.emit('updateOnlineNames', str);
+		socket.emit('updateOnlineNames', str);
+
+		getGameTallies(function (data) {
+			socket.broadcast.emit('updateGameTallies', data);
+			socket.emit('updateGameTallies', data);
+		});
+	}
 
 });
 
