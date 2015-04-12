@@ -19,12 +19,12 @@ var scInit = function(){
                     socket.emit('loadNextSong', 'omfgThisAppSucks');
                 }});
         });
-    })
+    });
 };
 
 //Takes in a SoundCloud link and sends it to the server
 var queueItem = function(link){
-    socket.emit('/queueSoundCloudItem', link);
+    socket.emit('queueSoundCloudItem', link);
 };
 
 //Toggles the mute status of the SoundCloud player
