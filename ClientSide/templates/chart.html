@@ -1,3 +1,4 @@
+<div id="chartScrollContainer" ng-if="gameData" class="scrollContainer">
 <table>
     <thead>
         <tr>
@@ -11,3 +12,7 @@
             <td>{{game.count}}</td>
         </tr>
 </table>
+</div>
+<div ng-if="!gameData">
+    <em>Fetching data...</em>
+</div>

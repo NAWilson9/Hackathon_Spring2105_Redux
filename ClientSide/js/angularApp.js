@@ -56,6 +56,8 @@ function splashController($scope){
 }
 
 function gameStatisticsController($scope){
+	$scope.gameData = false;
+	socket.emit('requestUpdateToGameTallies','');
 	socket.on("updateGameTallies", function(listStr){
 		$scope.gameData = JSON.parse(listStr);
 		$scope.$apply();

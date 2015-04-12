@@ -195,7 +195,6 @@ io.on('connection', function (socket) {
 						}
 					}
 				}
-
 				//console.log("Getting number "+count+" out of "+len);
 				count++;
 				if(count == len){
