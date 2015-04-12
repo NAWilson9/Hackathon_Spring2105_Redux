@@ -6,6 +6,8 @@ var request = require('request');
 var app = express();
 app.use(express.static('../ClientSide/'));
 var songQueue = [];
+var isStarted = false;
+var songList = [];
 
 //Start web server
 var server = app.listen(1337, function () {
@@ -51,6 +53,10 @@ io.on('connection', function (socket) {
             return;
         }
     }
+    if(isStarted){
+        socket.emit('loadSoundCloudItem', songQueue[0]);
+        updateSongList(true);
+    }
 
     // init
 
@@ -85,9 +91,10 @@ io.on('connection', function (socket) {
                 songFactory(data);
             }
             //Check for automatic startup
-            if (songQueue.length == 1) {
+            if (isStarted == false) {
                 socket.broadcast.emit('loadSoundCloudItem', songQueue[0]);
                 socket.emit('loadSoundCloudItem', songQueue[0]);
+                updateSongList(false);
             }
         };
         soundCloudParser(link, callback);
@@ -103,7 +110,18 @@ io.on('connection', function (socket) {
         //Returns the info of the next song to play
         socket.broadcast.emit('loadSoundCloudItem', songQueue[0]);
         socket.emit('loadSoundCloudItem', songQueue[0]);
+        updateSongList(true);
     });
+
+    var updateSongList = function(isStarted){
+        songList = songQueue.slice(0,6);
+        songList[0].current = true;
+        if(songQueue.length && isStarted == true){
+            songList.unshift(songQueue[songQueue.length - 1]);
+        }
+        socket.broadcast.emit('updateSongList', songList);
+        socket.emit('updateSongList', songList);
+    }
 
     socket.on('say', function (data) {
         // so trash, I'm sorry
