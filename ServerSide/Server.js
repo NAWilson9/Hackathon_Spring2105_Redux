@@ -12,7 +12,6 @@ var server = app.listen(1337, function () {
     console.log('Hackathon server running on port ' + 1337);
 });
 
-
 //Takes in a link to get the SoundCloud JSON object. Can be either song or playlist.
 var soundCloudParser = function (link, callback) {
     //For testing
@@ -61,17 +60,33 @@ io.on('connection', function (socket) {
     socket.on('/queueSoundCloudItem', function (link) {
         //Callback function
         var callback = function (data) {
-            //Item returned to user
-            var itemInfo = {
-                'kind': (data.kind == 'track') ? 'tracks' : data.kind,
-                'id': data.id
+            //Song object factory
+            var songFactory = function(song) {
+                //Song items returned to user
+                var itemInfo = {
+                    'kind': 'tracks',
+                    'id': song.id,
+                    'title': song.title,
+                    'user': song.user.username,
+                    'artwork':song.artwork_url
+                };
+                //Add song to queue
+                songQueue.push(itemInfo);
             };
-            //Add song to queue
-            songQueue.push(itemInfo);
+            //If object is a playlist, need to extract each song.
+            if(data.kind == 'playlist'){
+                for(var i = 0; i < data.tracks.length; i++) {
+                    songFactory(data.tracks[i]);
+                }
+            } else {
+                songFactory(data);
+            }
+            //Check for automatic startup
             if (songQueue.length == 1) {
                 socket.broadcast.emit('loadSoundCloudItem', songQueue[0]);
                 socket.emit('loadSoundCloudItem', songQueue[0]);
             }
+            console.log(songQueue.length);
         };
         soundCloudParser(link, callback);
     });
