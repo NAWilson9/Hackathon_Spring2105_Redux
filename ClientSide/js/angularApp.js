@@ -66,6 +66,12 @@ function musicController($scope){
 	// todo
 }
 
+function navController($scope){
+	$scope.homeTab = 1;
+	$scope.chartTab = 0;
+	$scope.musicTab = 0;
+}
+
 // todo add more controller definitions here
 
 // APP DEFINITION
@@ -88,6 +94,7 @@ default_registerController('splashController', splashController);
 default_registerController('chatController', chatController);
 default_registerController('gameStatisticsController', gameStatisticsController);
 default_registerController('musicController', musicController);
+default_registerController('navController', navController);
 
 // todo add more controllers here
 

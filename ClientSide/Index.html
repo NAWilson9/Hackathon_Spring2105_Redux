@@ -73,11 +73,13 @@
                                 FLANL
                             </h1>
 
+                            <div ng-controller="navController">
                             <ul class="nav nav-tabs">
-                                <li role="presentation" class="active"><a href="#/">Home</a></li>
-                                <li role="presentation"><a href="#/chart">Stats</a></li>
-                                <li role="presentation"><a href="#/music">Music</a></li>
+                                <li role="presentation" ng-class="{active : homeTab}"><a href="#/" ng-click="homeTab=1;chartTab=0;musicTab=0;">Home</a></li>
+                                <li role="presentation" ng-class="{active : chartTab}"><a href="#/chart" ng-click="homeTab=0;chartTab=1;musicTab=0;">Stats</a></li>
+                                <li role="presentation" ng-class="{active : musicTab}"><a href="#/music" ng-click="homeTab=0;chartTab=0;musicTab=1;">Music</a></li>
                             </ul>
+                            </div>
 
                         </header>
                         <div ng-view></div>
