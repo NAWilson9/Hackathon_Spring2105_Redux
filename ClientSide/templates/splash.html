@@ -1,8 +1,11 @@
 <div ng-controller="splashController">
     <h2 class="text-center">
-        Hello {{ hello }}
-
         Welcome to FLANL.
-
     </h2>
+    Current users online:
+    <ul>
+       <div ng-repeat="name in playerNames">
+           <li>{{ name }}</li>
+       </div>
+    </ul>
 </div>

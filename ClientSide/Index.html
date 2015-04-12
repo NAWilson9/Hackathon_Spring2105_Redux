@@ -19,6 +19,33 @@
         socket.on('noob', function (data) {
             console.log(data);
         });
+
+
+//        var scopes = [];
+        var playerNames = [];
+        var gameData = {};
+
+//        socket.on("updateGameTallies", function(listStr){
+//            gameData = JSON.parse(listStr);
+//            console.log(gameData);
+//            for(var i=0;i<scopes.length;i++){
+//                try{
+//                	scopes[i].$apply();
+//                }
+//                catch(ignored){}
+//            }
+//        });
+
+//        socket.on("updateOnlineNames", function(listStr){
+//            playerNames = JSON.parse(listStr);
+//            console.log(playerNames);
+//            for(var i=0;i<scopes.length;i++){
+//                try{
+//                	scopes[i].$apply();
+//                }
+//                catch(ignored){}
+//            }
+//        });
     </script>
 </head>
 <body background="./img/flanl.PNG" onload="scInit();">

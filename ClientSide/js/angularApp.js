@@ -48,14 +48,17 @@ function chatController($scope){
 
 function splashController($scope){
 	$scope.hello = "world";
-	console.log("splash controller loaded");
-
-	socket.on("updateOnlinePlayerList", function(listStr){
-		var list = JSON.parse(listStr);
-		console.log(list);
+	//$scope.playerNames = playerNames;
+	socket.on("updateOnlineNames", function(listStr){
+		$scope.playerNames = JSON.parse(listStr);
+		$scope.$apply();
 	});
+}
 
-
+function gameStatisticsController($scope){
+	socket.on("updateGameTallies", function(listStr){
+		$scope.gameData = JSON.parse(listStr);
+	});
 }
 
 // todo add more controller definitions here
@@ -88,7 +91,10 @@ app.config(['$routeProvider',
 			when('/',{
 				templateUrl:'/templates/splash.html',
 				controller:'splashController'
-			});// todo add more routing here
+			});//.when('/aaa',{
+			//	templateUrl:'/templates/chart.html',
+			//	controller:''
+			//});// todo add more routing here
 	}
 ]);
 

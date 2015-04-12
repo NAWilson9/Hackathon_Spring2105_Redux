@@ -12,6 +12,7 @@ var server = app.listen(1337, function () {
     console.log('Hackathon server running on port ' + 1337);
 });
 
+
 //Takes in a link to get the SoundCloud JSON object. Can be either song or playlist.
 var soundCloudParser = function (link, callback) {
     //For testing
@@ -52,9 +53,11 @@ io.on('connection', function (socket) {
     }
 
     // init
-    getPlayerList(function (data) {
-        socket.emit('updateOnlinePlayerList', data);
-    });
+
+	getGameTallies(function(data){
+		socket.emit('updateGameTallies',data);
+	});
+	socket.emit('updateOnlineNames',JSON.stringify(getOnlineNames()));
 
     //User add item to queue
     socket.on('/queueSoundCloudItem', function (link) {
@@ -86,7 +89,6 @@ io.on('connection', function (socket) {
                 socket.broadcast.emit('loadSoundCloudItem', songQueue[0]);
                 socket.emit('loadSoundCloudItem', songQueue[0]);
             }
-            console.log(songQueue.length);
         };
         soundCloudParser(link, callback);
     });
@@ -109,60 +111,90 @@ io.on('connection', function (socket) {
         socket.emit('hear', data);
     });
 
-    function getPlayerList(cb) {
-        var list = [];
-        for (var key in connection_map) {
-            if (connection_map.hasOwnProperty(key)) {
-                var id = connection_map[key];
-                if (id) {
-                    list.push(id);
-                }
-            }
-        }
-        var map = {};
-        var count = 0;
-        var len = list.length;
-        for (var i = 0; i < len; i++) {
-            var id = list[i];
-            var url = "http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=46E787DD72E329DAA831E4422883B5DE&include_played_free_games=1&format=json&include_appinfo=1&steamid=" + id;
-            request(url, function (err, res, html) {
-                var json = JSON.parse(html);
-                var games = json.response.games;
-                for (var j = 0; j < games.length; j++) {
-                    var name = games[j].name;
-                    if (map[name]) {
-                        map[name]++;
-                    }
-                    else {
-                        map[name] = 1;
-                    }
-                }
-                //console.log("Getting number "+count+" out of "+len);
-                count++;
-                if (count == len) {
-                    //console.log("Finished");
-                    cb(JSON.stringify(map));
-                }
-            });
-        }
-    }
+	function getOnlineIds(){
+		var list = [];
+		for(var key in connection_map){
+			if(connection_map.hasOwnProperty(key)){
+				var el = connection_map[key];
+				if(el){
+					list.push(el.id);
+				}
+			}
+		}
+		return list;
+	}
 
+	function getOnlineNames(){
+		var list = [];
+		for(var key in connection_map){
+			if(connection_map.hasOwnProperty(key)){
+				var el = connection_map[key];
+				if(el){
+					list.push(el.name);
+				}
+			}
+		}
+		return list;
+	}
+
+	function getGameTallies(cb){
+		var list = getOnlineIds();
+		var map = {};
+		var count = 0;
+		var len = list.length;
+		for(var i=0;i<len;i++){
+			var id = list[i];
+			var url = "http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=46E787DD72E329DAA831E4422883B5DE&include_played_free_games=1&format=json&include_appinfo=1&steamid="+id;
+			request(url, function(err, res, html){
+				if(html.indexOf("<")==0){
+					return;
+				}
+				var json = JSON.parse(html);
+				var games = json.response.games;
+				if(games){
+					for (var j = 0; j < games.length; j++){
+						var name = games[j].name;
+						if (map[name]){
+							map[name]++;
+						}
+						else{
+							map[name] = 1;
+						}
+					}
+				}
+
+				//console.log("Getting number "+count+" out of "+len);
+				count++;
+				if(count == len){
+					//console.log("Finished");
+					cb(JSON.stringify(map));
+				}
+			});
+
+		}
+	}
+	
     socket.on('steamInfo', function (data) {
         var url = "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=46E787DD72E329DAA831E4422883B5DE&steamids=" + data;
 
         request(url, function (error, response, html) {
-            var id;
             try {
                 // 76561198044825221
-                id = JSON.parse(html).response.players[0].steamid;
+				var json = JSON.parse(html).response.players[0];
+                var id = json.steamid;
+				var name = json.personaname;
 
-                connection_map[random] = id;
+                connection_map[random] = {
+					id:id,
+					name:name
+				};
 
-                //socket.broadcast.emit('updateOnlinePlayerList', getPlayerList());
-                //socket.emit('updateOnlinePlayerList', getPlayerList());
-                getPlayerList(function (data) {
-                    socket.broadcast.emit('updateOnlinePlayerList', data);
-                    socket.emit('updateOnlinePlayerList', data);
+				var str = JSON.stringify(getOnlineNames());
+                socket.broadcast.emit('updateOnlineNames', str);
+                socket.emit('updateOnlineNames', str);
+                getGameTallies(function (data) {
+                    socket.broadcast.emit('updateGameTallies', data);
+                    socket.emit('updateGameTallies', data);
                 });
             }
             catch (ignored) {
@@ -174,4 +206,6 @@ io.on('connection', function (socket) {
     socket.on('disconnect', function () {
         connection_map[random] = null;
     });
+
 });
+
