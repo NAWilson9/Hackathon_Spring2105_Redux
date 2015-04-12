@@ -17,10 +17,6 @@ var server = app.listen(1337, function () {
 
 //Takes in a link to get the SoundCloud JSON object. Can be either song or playlist.
 var soundCloudParser = function (link, callback) {
-    //For testing
-    //var link = "https://soundcloud.com/misanthropnsgnl/phace-misanthrop-sex-sells-friction-bbc-radio-1-premier?in=nawilson9/sets/filth";
-    //var link = "https://soundcloud.com/nawilson9/sets/filth";
-
     //The SoundCloud url to resolve object.
     var requestUrl = "https://api.soundcloud.com/resolve.json?url=" + link + "&client_id=81fad9a6e3aa2a4f6d78589080285728";
 
@@ -53,11 +49,19 @@ io.on('connection', function (socket) {
             return;
         }
     }
+    //If you connect while music is already playing
     if(isStarted){
-        socket.emit('loadSoundCloudItem', songQueue[0]);
-        updateSongList(true);
+        updateSoundCloud();
     }
 
+    var updateSoundCloud = function(all){
+        socket.emit('loadSoundCloudItem', songQueue[0]);
+        socket.emit('updateSongList', songList);
+        if(all){
+            socket.broadcast.emit('loadSoundCloudItem', songQueue[0]);
+            socket.broadcast.emit('updateSongList', songList);
+        }
+    }
     // init
 
 	getGameTallies(function(data){
@@ -87,7 +91,7 @@ io.on('connection', function (socket) {
                 for(var i = 0; i < data.tracks.length; i++) {
                     songFactory(data.tracks[i]);
                 }
-            } else {
+            } else if(data.kind == 'tracks' || data.kind == 'track') {
                 songFactory(data);
             }
             //Check for automatic startup
@@ -106,22 +110,28 @@ io.on('connection', function (socket) {
         if (socket.request.headers.host == "localhost:1337") {
             //Removes the first (previously played) song
             songQueue.push(songQueue.shift());
+            updateSongList(true);
         }
         //Returns the info of the next song to play
         socket.broadcast.emit('loadSoundCloudItem', songQueue[0]);
         socket.emit('loadSoundCloudItem', songQueue[0]);
-        updateSongList(true);
+    });
+
+    socket.on('updateSongList', function(){
+        socket.emit('updateSongList', songList);
     });
 
     var updateSongList = function(isStarted){
+        //var lenght = (songQueue.length > 6)? 6 : (songQueue.length > 2)
         songList = songQueue.slice(0,6);
         songList[0].current = true;
         if(songQueue.length && isStarted == true){
             songList.unshift(songQueue[songQueue.length - 1]);
         }
+        console.log('Songlist: ' + JSON.stringify(songList));
         socket.broadcast.emit('updateSongList', songList);
         socket.emit('updateSongList', songList);
-    }
+    };
 
     socket.on('say', function (data) {
         // so trash, I'm sorry

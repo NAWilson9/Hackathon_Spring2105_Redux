@@ -64,6 +64,13 @@ function gameStatisticsController($scope){
 
 
 function musicController($scope){
+    socket.emit('updateSongList', "");
+
+    socket.on('updateSongList', function(songs){
+        $scope.songs = songs;
+        $scope.$apply();
+    });
+
     socket.on('loadSoundCloudItem', function(data){
         $scope.song = data;
     });
@@ -74,11 +81,6 @@ function musicController($scope){
     }
 
     $scope.songs = [];
-
-    socket.on('updateSongList', function(songs){
-        $scope.songs = songs;
-        $scope.$apply();
-    });
 
     $scope.updateSongs = function(){
         socket.on

@@ -2,7 +2,7 @@
  * Created by Nick on 4/11/2015.
  */
 var soundObject;
-
+var songList = [];
 //Initializes SoundCloud stuff
 var scInit = function(){
     //Authenticates the user
@@ -19,6 +19,10 @@ var scInit = function(){
                     socket.emit('loadNextSong', 'omfgThisAppSucks');
                 }});
         });
+    });
+
+    socket.on('updateSongList', function(songs){
+        songList = songs;
     })
 };
 
