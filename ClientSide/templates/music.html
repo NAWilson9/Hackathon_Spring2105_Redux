@@ -12,11 +12,11 @@
                 <img class="albumArt" ng-src="{{song.artwork}}"/>
             </div>
             <div>
-                <div ng-if="song.current">
-                    Now Playing: <br/>
-                </div>
-                <h3><small>Track:</small>{{ song.title }}</h3>
-                <h3><small>Artist:</small>{{ song.user }}</h3>
+                <h5 ng-if="song.current">
+                    Now Playing:
+                </h5>
+                <h4><small>Track:</small>{{ song.title }}</h4>
+                <h4><small>Artist:</small>{{ song.user }}</h4>
             </div>
         </div>
         <br class="clearfix"/>
