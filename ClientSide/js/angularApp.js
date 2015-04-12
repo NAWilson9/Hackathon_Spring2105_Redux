@@ -48,6 +48,7 @@ function chatController($scope){
 
 function splashController($scope){
 	$scope.playerNames = [];
+	socket.emit('requestUpdateOnlineNames','');
 	socket.on("updateOnlineNames", function(listStr){
 		$scope.playerNames = JSON.parse(listStr);
 		$scope.$apply();

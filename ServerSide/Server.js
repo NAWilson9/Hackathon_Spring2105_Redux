@@ -61,12 +61,16 @@ io.on('connection', function (socket) {
     }
 
     // init
+	socket.on("requestUpdateOnlineNames", function(){
+		socket.emit('updateOnlineNames',JSON.stringify(getOnlineNames()));
+	});
+
 	socket.on("requestUpdateToGameTallies",function(){
 		getGameTallies(function(data){
 			socket.emit('updateGameTallies',data);
 		});
 	});
-	socket.emit('updateOnlineNames',JSON.stringify(getOnlineNames()));
+
 
     //User add item to queue
     socket.on('queueSoundCloudItem', function (link) {
@@ -171,50 +175,61 @@ io.on('connection', function (socket) {
 		return list;
 	}
 
+	var cachedTally = {
+		list:0,
+		output:0
+	};
+
 	function getGameTallies(cb){
 		var list = getOnlineIds();
-		var map = {};
-		var count = 0;
-		var len = list.length;
-		for(var i=0;i<len;i++){
-			var id = list[i];
-			var url = "http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=46E787DD72E329DAA831E4422883B5DE&include_played_free_games=1&format=json&include_appinfo=1&steamid="+id;
-			request(url, function(err, res, html){
-				if(html.indexOf("<")==0){
-					return;
-				}
-				var json = JSON.parse(html);
-				var games = json.response.games;
-				if(games){
-					for (var j = 0; j < games.length; j++){
-						var name = games[j].name;
-						if (map[name]){
-							map[name]++;
-						}
-						else{
-							map[name] = 1;
+		if(cachedTally.output && JSON.stringify(list) == JSON.stringify(cachedTally.list)){
+			cb(cachedTally.output);
+		}
+		else{
+			var map = {};
+			var count = 0;
+			var len = list.length;
+			for (var i = 0; i < len; i++){
+				var id = list[i];
+				var url = "http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=46E787DD72E329DAA831E4422883B5DE&include_played_free_games=1&format=json&include_appinfo=1&steamid=" + id;
+				request(url, function (err, res, html){
+					if (html.indexOf("<") == 0){
+						return;
+					}
+					var json = JSON.parse(html);
+					var games = json.response.games;
+					if (games){
+						for (var j = 0; j < games.length; j++){
+							var name = games[j].name;
+							if (map[name]){
+								map[name]++;
+							}
+							else{
+								map[name] = 1;
+							}
 						}
 					}
-				}
-				//console.log("Getting number "+count+" out of "+len);
-				count++;
-				if(count == len){
-					//console.log("Finished");
-					//cb(JSON.stringify(map));
-					var db = [];
-					for(var key in map){
-						if(map.hasOwnProperty(key)){
-							var val = map[key];
-							db.push({
-								name:key,
-								count:val
-							});
+					//console.log("Getting number "+count+" out of "+len);
+					count++;
+					if (count == len){
+						//console.log("Finished");
+						//cb(JSON.stringify(map));
+						var db = [];
+						for (var key in map){
+							if (map.hasOwnProperty(key)){
+								var val = map[key];
+								db.push({
+									name: key,
+									count: val
+								});
+							}
 						}
+						cachedTally.list = list;
+						cachedTally.output=JSON.stringify(db);
+						cb(cachedTally.output);
 					}
-					cb(JSON.stringify(db));
-				}
-			});
-
+				});
+			}
 		}
 	}
 	
