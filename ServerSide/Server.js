@@ -7,6 +7,7 @@ var app = express();
 app.use(express.static('../ClientSide/'));
 var songQueue = [];
 var isStarted = false;
+var wasPrevious = false;
 var songList = [];
 
 //Start web server
@@ -25,6 +26,25 @@ var connection_map = {};
 
 //Socket routes
 io.on('connection', function (socket) {
+    //Sends the current song info and song list to sockets
+    var updateSoundCloud = function(all){
+        socket.emit('loadSoundCloudItem', songQueue[0]);
+        socket.emit('updateSongList', songList);
+        if(all){
+            socket.broadcast.emit('loadSoundCloudItem', songQueue[0]);
+            socket.broadcast.emit('updateSongList', songList);
+        }
+    };
+
+    //Updates the songlist to current queue
+    var updateSongList = function(isStarted){
+        songList = songQueue.slice(0,6);
+        songList[0].current = true;
+        if(songQueue.length > 1 && !wasPrevious){
+            songList.unshift(songQueue[songQueue.length - 1]);
+        }
+    };
+
     var random;
     var count = 0;
     while (!random || connection_map[random]) {
@@ -48,7 +68,7 @@ io.on('connection', function (socket) {
 	socket.emit('updateOnlineNames',JSON.stringify(getOnlineNames()));
 
     //User add item to queue
-    socket.on('/queueSoundCloudItem', function (link) {
+    socket.on('queueSoundCloudItem', function (link) {
         //The SoundCloud url to resolve object.
         var requestUrl = "https://api.soundcloud.com/resolve.json?url=" + link + "&client_id=81fad9a6e3aa2a4f6d78589080285728";
         var callback = function (data) {
@@ -113,30 +133,10 @@ io.on('connection', function (socket) {
         }
     });
 
-    //Sends the current song info and song list to sockets
-    var updateSoundCloud = function(all){
-        socket.emit('loadSoundCloudItem', songQueue[0]);
-        socket.emit('updateSongList', songList);
-        if(all){
-            socket.broadcast.emit('loadSoundCloudItem', songQueue[0]);
-            socket.broadcast.emit('updateSongList', songList);
-        }
-    }
-
     //Stupid helper echo thing
     socket.on('updateSongList', function(){
         socket.emit('updateSongList', songList);
     });
-
-    //Updates the songlist to current queue
-    //TODO
-    var updateSongList = function(isStarted){
-        songList = songQueue.slice(0,6);
-        songList[0].current = true;
-        if(songQueue.length > 1 && isStarted == true){
-            songList.unshift(songQueue[songQueue.length - 1]);
-        }
-    };
 
     socket.on('say', function (data) {
         // so trash, I'm sorry

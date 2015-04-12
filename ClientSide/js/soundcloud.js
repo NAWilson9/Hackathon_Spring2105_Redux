@@ -2,7 +2,7 @@
  * Created by Nick on 4/11/2015.
  */
 var soundObject;
-var songList = [];
+
 //Initializes SoundCloud stuff
 var scInit = function(){
     //Authenticates the user
@@ -20,15 +20,11 @@ var scInit = function(){
                 }});
         });
     });
-
-    socket.on('updateSongList', function(songs){
-        songList = songs;
-    })
 };
 
 //Takes in a SoundCloud link and sends it to the server
 var queueItem = function(link){
-    socket.emit('/queueSoundCloudItem', link);
+    socket.emit('queueSoundCloudItem', link);
 };
 
 //Toggles the mute status of the SoundCloud player

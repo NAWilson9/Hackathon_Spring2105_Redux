@@ -83,11 +83,6 @@ function musicController($scope){
     }
 
     $scope.songs = [];
-
-    $scope.updateSongs = function(){
-        socket.on
-    }
-
 }
 
 function navController($scope){
