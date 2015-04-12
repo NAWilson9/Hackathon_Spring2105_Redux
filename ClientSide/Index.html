@@ -11,58 +11,17 @@
     <script src="./socket.io/socket.io.js"></script>
     <script src="http://connect.soundcloud.com/sdk.js"></script>
     <script src="./js/soundcloud.js"></script>
-
     <script src="./js/angularApp.js"></script>
     <link rel="stylesheet" type="text/css" href="./css/main.css" />
     <script>
         var socket = io.connect('http://localhost:1337');
-        socket.on('noob', function (data) {
-            console.log(data);
-        });
-
-
-//        var scopes = [];
-        var playerNames = [];
-        var gameData = {};
-
-//        socket.on("updateGameTallies", function(listStr){
-//            gameData = JSON.parse(listStr);
-//            console.log(gameData);
-//            for(var i=0;i<scopes.length;i++){
-//                try{
-//                	scopes[i].$apply();
-//                }
-//                catch(ignored){}
-//            }
-//        });
-
-//        socket.on("updateOnlineNames", function(listStr){
-//            playerNames = JSON.parse(listStr);
-//            console.log(playerNames);
-//            for(var i=0;i<scopes.length;i++){
-//                try{
-//                	scopes[i].$apply();
-//                }
-//                catch(ignored){}
-//            }
-//        });
     </script>
 </head>
 <body background="./img/flanl.PNG" onload="scInit();">
-<div>
-<span onclick="mediaControl('play')">Play</span>
-<span onclick="mediaControl('pause')">Pause</span>
-<span onclick="mediaControl('next')">Next</span>
-<span onclick="mediaControl('previous')">Previous</span>
-<span onclick="queueItem('https://soundcloud.com/skrillex/ragga-bomb-teddy-killerz-remix?in=nawilson9/sets/filth')";>Test Post</span>
-</div>
-
 <br class="clearfix"/>
-
 <div id="body-container">
     <br/>
     <div class="container-fluid">
-
         <div class="row">
             <div class="pull-left half">
                 <div class="panel panel-default">
@@ -89,7 +48,6 @@
             <div class="pull-right half" ng-include=" '/templates/chat.html' ">
             </div>
         </div>
-
     </div>
     <br/>
 </div>
@@ -104,6 +62,5 @@
         </small>
     </h5>
 </footer>
-
 </body>
 </html>

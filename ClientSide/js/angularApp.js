@@ -64,7 +64,26 @@ function gameStatisticsController($scope){
 
 
 function musicController($scope){
-	// todo
+    socket.on('loadSoundCloudItem', function(data){
+        $scope.song = data;
+    });
+
+    $scope.formSubmit = function(){
+        queueItem($scope.itemQueue);
+        $scope.itemQueue = "";
+    }
+
+    $scope.songs = [];
+
+    socket.on('updateSongList', function(songs){
+        $scope.songs = songs;
+        $scope.$apply();
+    });
+
+    $scope.updateSongs = function(){
+        socket.on
+    }
+
 }
 
 function navController($scope){
