@@ -61,9 +61,10 @@ io.on('connection', function (socket) {
     }
 
     // init
-
-	getGameTallies(function(data){
-		socket.emit('updateGameTallies',data);
+	socket.on("requestUpdateToGameTallies",function(){
+		getGameTallies(function(data){
+			socket.emit('updateGameTallies',data);
+		});
 	});
 	socket.emit('updateOnlineNames',JSON.stringify(getOnlineNames()));
 
