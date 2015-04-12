@@ -49,6 +49,13 @@ function chatController($scope){
 function splashController($scope){
 	$scope.hello = "world";
 	console.log("splash controller loaded");
+
+	socket.on("updateOnlinePlayerList", function(listStr){
+		var list = JSON.parse(listStr);
+		console.log(list);
+	});
+
+
 }
 
 // todo add more controller definitions here

@@ -36,8 +36,27 @@ Websocket stuff
 //Start websocket server
 var io = require('socket.io').listen(server);
 
+var connection_map = {};
+
 //Socket routes
 io.on('connection', function (socket) {
+	var random;
+	var count = 0;
+	while(!random || connection_map[random]){
+		random = Math.random()*(2e20-1);
+		count++;
+		if(count>50){
+			console.error("IT BROKE, GEE GEE!");
+			return;
+		}
+	}
+
+
+	// init
+	getPlayerList(function(data){
+		socket.emit('updateOnlinePlayerList',data);
+	});
+
     //User add item to queue
     socket.on('/queueSoundCloudItem', function(link){
         //Callback function
@@ -60,12 +79,72 @@ io.on('connection', function (socket) {
         socket.emit('hear', data);
     });
 
+	function getPlayerList(cb){
+		var list = [];
+		for(var key in connection_map){
+			if(connection_map.hasOwnProperty(key)){
+				var id = connection_map[key];
+				if(id){
+					list.push(id);
+				}
+			}
+		}
+		var map = {};
+		var count = 0;
+		var len = list.length;
+		for(var i=0;i<len;i++){
+			var id = list[i];
+			var url = "http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=46E787DD72E329DAA831E4422883B5DE&include_played_free_games=1&format=json&include_appinfo=1&steamid="+id;
+			request(url, function(err, res, html){
+				var json = JSON.parse(html);
+				var games = json.response.games;
+				for(var j=0;j<games.length;j++){
+					var name = games[j].name;
+					if(map[name]){
+						map[name]++;
+					}
+					else{
+						map[name] = 1;
+					}
+				}
+
+				//console.log("Getting number "+count+" out of "+len);
+				count++;
+				if(count == len){
+					//console.log("Finished");
+					cb(JSON.stringify(map));
+				}
+			});
+
+		}
+	}
+
 	socket.on('steamInfo',function(data){
 		var url = "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=46E787DD72E329DAA831E4422883B5DE&steamids="+data;
 
 		request(url, function(error, response, html){
+			var id;
+			try{
+				// 76561198044825221
+				id = JSON.parse(html).response.players[0].steamid;
+
+				connection_map[random] = id;
+
+				//socket.broadcast.emit('updateOnlinePlayerList', getPlayerList());
+				//socket.emit('updateOnlinePlayerList', getPlayerList());
+				getPlayerList(function(data){
+					socket.broadcast.emit('updateOnlinePlayerList',data);
+					socket.emit('updateOnlinePlayerList',data);
+				});
+			}
+			catch(ignored){}
+
 			socket.emit('steamInfoReturn',html);
 		});
+	});
+
+	socket.on('disconnect', function(){
+		connection_map[random] = null;
 	});
 
 });
