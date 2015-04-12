@@ -59,11 +59,12 @@ io.on('connection', function (socket) {
     }
 
     // init
-
-	getGameTallies(function(data){
-		socket.emit('updateGameTallies',data);
-	});
 	socket.emit('updateOnlineNames',JSON.stringify(getOnlineNames()));
+	socket.on('requestUpdateToGameTallies', function(){
+		getGameTallies(function(data){
+			socket.emit('updateGameTallies',data);
+		});
+	});
 
     //User add item to queue
     socket.on('/queueSoundCloudItem', function (link) {
@@ -121,7 +122,7 @@ io.on('connection', function (socket) {
         }
         socket.broadcast.emit('updateSongList', songList);
         socket.emit('updateSongList', songList);
-    }
+    };
 
     socket.on('say', function (data) {
         // so trash, I'm sorry
@@ -180,7 +181,6 @@ io.on('connection', function (socket) {
 						}
 					}
 				}
-
 				//console.log("Getting number "+count+" out of "+len);
 				count++;
 				if(count == len){

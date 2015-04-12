@@ -10,12 +10,17 @@ footer{
 #body-container{
     position:fixed;
     top:0;
-    left:0;
-    right:0;
-    bottom:50px;
-    overflow-x:hidden;
-    overflow-y:auto;
+    left:2%;
+    right:2%;
+    bottom:80px;
     min-width:600px;
+}
+
+.hundredHeight{
+    /*position:relative;*/
+    /*top:0;*/
+    /*bottom:0;*/
+    height:100%;
 }
 
 .half {
@@ -25,4 +30,14 @@ footer{
 .avatar {
     width:30px;
     height:30px;
+}
+
+.scrollContainer{
+    /*position:relative;*/
+    /*top:0px;*/
+    /*bottom:0px;*/
+    height:75%;
+
+    overflow-x:hidden;
+    overflow-y:scroll;
 }
