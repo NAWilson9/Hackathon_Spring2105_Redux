@@ -1,35 +1,33 @@
-<div ng-controller="chatController">
-    <div class="panel panel-primary">
+<div ng-controller="chatController" class="hundredHeight">
+    <div class="panel panel-primary hundredHeight">
+        <div class="panel-body hundredHeight">
+            <img class="pull-left" ng-src="{{ avatarUrl }}" style="width:50px;height:50px;display:block;border:2px solid black;"/>
+            <h2 class="pull-left">
+                <small class="">Name:</small> {{ username }}
+            </h2>
+            <br style="clear:both;"/>
+            <div class="form-group">
+                <label>Steam ID:</label>
+                <input type="text" class="form-control" ng-model="steamID"/>
+                <form ng-submit="sendChat()">
+                    <label>Say:</label>
+                    <input type="text" class="form-control" ng-model="chatMessage" />
+                </form>
+            </div>
 
-    <div class="panel-body">
-        <img class="pull-left" ng-src="{{ avatarUrl }}" style="width:50px;height:50px;display:block;border:2px solid black;"/>
-        <h2 class="pull-left">
-            <small class="">Name:</small> {{ username }}
-        </h2>
-        <br style="clear:both;"/>
-        <div class="form-group">
-        <label>Steam ID:</label>
-        <input type="text" class="form-control" ng-model="steamID"/>
+            <hr/>
 
-
-        <form ng-submit="sendChat()">
-            <label>Say:</label>
-            <input type="text" class="form-control" ng-model="chatMessage" />
-        </form>
-        </div>
-
-        <hr/>
-
-        <div ng-repeat="message in messages">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <img class="avatar" ng-src="{{message.avatar}}"/>
-                    {{ message.name }}: {{ message.msg }}
+            <div id="chatScrollContainer" class="scrollContainer">
+                <div ng-repeat="message in messages">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <img class="avatar" ng-src="{{message.avatar}}"/>
+                            {{ message.ame }}: {{ message.msg }}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-
-    </div>
 
     </div>
 

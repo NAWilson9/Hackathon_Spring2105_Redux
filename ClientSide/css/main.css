@@ -36,8 +36,15 @@ footer{
     /*position:relative;*/
     /*top:0px;*/
     /*bottom:0px;*/
-    height:75%;
 
     overflow-x:hidden;
-    overflow-y:scroll;
+    overflow-y:auto;
+}
+
+#chartScrollContainer{
+    height:75%;
+}
+
+#chatScrollContainer{
+    height:55%;
 }
