@@ -174,6 +174,4 @@ io.on('connection', function (socket) {
     socket.on('disconnect', function () {
         connection_map[random] = null;
     });
-
 });
-

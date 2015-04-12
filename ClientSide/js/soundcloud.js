@@ -27,26 +27,17 @@ var queueItem = function(link){
     socket.emit('/queueSoundCloudItem', link);
 };
 
-//Controls the SoundCloud player
-/*var mediaControl = function(command) {
-    switch(command){
-        case 'play':
-            soundObject.play();
-            break;
-        case 'pause':
-            soundObject.pause();
-            break;
-        case 'stop':
-            soundObject.stop();
-            break;
-        /*case 'next':
-            soundObject.next();
-            break;
-        case 'previous':
-            soundObject.previous();
-            break;*//*
-    }
-};*/
+//Toggles the mute status of the SoundCloud player
+var toggleMute = function() {
+    soundObject.toggleMute();
+};
+
+//Sets the volume of the SoundCloud player
+var setVolume = function(value){
+    soundObject.setVolume(value);
+}
+
+
 
 
 
