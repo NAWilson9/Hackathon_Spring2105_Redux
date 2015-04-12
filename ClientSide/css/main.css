@@ -52,3 +52,13 @@ footer{
 #splashScrollContainer{
     height:80%;
 }
+
+#musicScrollContainer{
+    height:70%;
+}
+
+.albumArt{
+    max-width:80px;
+    max-height:80px;
+    margin:10px;
+}

@@ -65,13 +65,6 @@ function gameStatisticsController($scope){
 
 
 function musicController($scope){
-    socket.emit('updateSongList', "");
-
-    socket.on('updateSongList', function(songs){
-        $scope.songs = songs;
-        $scope.$apply();
-    });
-
     socket.on('loadSoundCloudItem', function(data){
         $scope.song = data;
     });
@@ -79,7 +72,7 @@ function musicController($scope){
     $scope.formSubmit = function(){
         queueItem($scope.itemQueue);
         $scope.itemQueue = "";
-    }
+    };
 
     $scope.songs = [];
 
@@ -96,7 +89,6 @@ function navController($scope){
 	$scope.chartTab = (loc.indexOf('/#/chart')>=0);
 	$scope.musicTab = (loc.indexOf('/#/music')>=0);
 }
-
 
 // APP DEFINITION
 var app = angular.module(
@@ -120,7 +112,6 @@ default_registerController('gameStatisticsController', gameStatisticsController)
 default_registerController('musicController', musicController);
 default_registerController('navController', navController);
 
-// todo add more controllers here
 
 /// ROUTING
 app.config(['$routeProvider',
@@ -136,7 +127,7 @@ app.config(['$routeProvider',
 			).when('/chart',{
 				templateUrl:'/templates/chart.html',
 				controller:'gameStatisticsController'
-			});// todo add more routing here
+			});
 	}
 ]);
 

@@ -1,4 +1,4 @@
-<div>
+<div id="musicScrollContainer" class="scrollContainer">
     <h2>SoundCloud Queue</h2>
     <div class="form-group">
         <form ng-submit="formSubmit()">
@@ -7,16 +7,18 @@
         </form>
     </div>
     <div ng-repeat="song in songs">
-        <div class="panel panel-primary">
-            <div ng-if="song.current">
-                <div class="panel-heading">
-                    <h3>Now Playing:</h3>
-                </div>
-            </div>
-            <div class="panel-body"> <!--ng-class="{currentSong:song.current}"-->
+        <div ng-class="{bg-primary : song.current}">
+            <div class="pull-left">
                 <img class="albumArt" ng-src="{{song.artwork}}"/>
-                {{ song.title }}: {{ song.user }}
+            </div>
+            <div>
+                <div ng-if="song.current">
+                    Now Playing: <br/>
+                </div>
+                <h3><small>Track:</small>{{ song.title }}</h3>
+                <h3><small>Artist:</small>{{ song.user }}</h3>
             </div>
         </div>
+        <br class="clearfix"/>
     </div>
 </div>
