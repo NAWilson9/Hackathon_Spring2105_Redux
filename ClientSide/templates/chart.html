@@ -1,1 +1,13 @@
-chart
+<table>
+    <thead>
+        <tr>
+            <th>Game name</th>
+            <th>Owned By</th>
+        </tr>
+    </thead>
+        <tr ng-repeat="game in gameData | orderBy : '-count'">
+            <!--{{game}}-->
+            <td>{{game.name}}</td>
+            <td>{{game.count}}</td>
+        </tr>
+</table>

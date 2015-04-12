@@ -58,6 +58,7 @@ function splashController($scope){
 function gameStatisticsController($scope){
 	socket.on("updateGameTallies", function(listStr){
 		$scope.gameData = JSON.parse(listStr);
+		$scope.$apply();
 	});
 }
 
@@ -67,12 +68,12 @@ function musicController($scope){
 }
 
 function navController($scope){
-	$scope.homeTab = 1;
-	$scope.chartTab = 0;
-	$scope.musicTab = 0;
+	var loc = window.location.href;
+	$scope.homeTab = (loc.indexOf('/#/')>loc.length-3);
+	$scope.chartTab = (loc.indexOf('/#/chart')>=0);
+	$scope.musicTab = (loc.indexOf('/#/music')>=0);
 }
 
-// todo add more controller definitions here
 
 // APP DEFINITION
 var app = angular.module(

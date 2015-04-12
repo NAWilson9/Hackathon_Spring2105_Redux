@@ -167,7 +167,18 @@ io.on('connection', function (socket) {
 				count++;
 				if(count == len){
 					//console.log("Finished");
-					cb(JSON.stringify(map));
+					//cb(JSON.stringify(map));
+					var db = [];
+					for(var key in map){
+						if(map.hasOwnProperty(key)){
+							var val = map[key];
+							db.push({
+								name:key,
+								count:val
+							});
+						}
+					}
+					cb(JSON.stringify(db));
 				}
 			});
 
