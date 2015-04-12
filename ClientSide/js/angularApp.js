@@ -100,7 +100,7 @@ function musicController($scope){
 
 function navController($scope){
 	var loc = window.location.href;
-	$scope.homeTab = (loc.indexOf('/#/')>loc.length-3);
+	$scope.homeTab = (loc.indexOf('/#/')>=loc.length-3);
 	$scope.chartTab = (loc.indexOf('/#/chart')>=0);
 	$scope.musicTab = (loc.indexOf('/#/music')>=0);
 }
