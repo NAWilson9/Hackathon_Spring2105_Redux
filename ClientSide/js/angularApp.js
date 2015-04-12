@@ -65,6 +65,13 @@ function gameStatisticsController($scope){
 
 
 function musicController($scope){
+	socket.emit('updateSongList', "");
+
+	socket.on('updateSongList', function(songs){
+		$scope.songs = songs;
+		$scope.$apply();
+	});
+
     socket.on('loadSoundCloudItem', function(data){
         $scope.song = data;
     });
