@@ -61,6 +61,11 @@ function gameStatisticsController($scope){
 	});
 }
 
+
+function musicController($scope){
+	// todo
+}
+
 // todo add more controller definitions here
 
 // APP DEFINITION
@@ -81,6 +86,8 @@ function default_registerController(name, cb){
 
 default_registerController('splashController', splashController);
 default_registerController('chatController', chatController);
+default_registerController('gameStatisticsController', gameStatisticsController);
+default_registerController('musicController', musicController);
 
 // todo add more controllers here
 
@@ -91,10 +98,14 @@ app.config(['$routeProvider',
 			when('/',{
 				templateUrl:'/templates/splash.html',
 				controller:'splashController'
-			});//.when('/aaa',{
-			//	templateUrl:'/templates/chart.html',
-			//	controller:''
-			//});// todo add more routing here
+			}).when('/music',{
+				templateUrl:'/templates/music.html',
+				controller:'musicController'
+			}
+			).when('/chart',{
+				templateUrl:'/templates/chart.html',
+				controller:'gameStatisticsController'
+			});// todo add more routing here
 	}
 ]);
 
