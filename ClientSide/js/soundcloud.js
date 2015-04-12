@@ -14,7 +14,10 @@ var scInit = function(){
     socket.on('loadSoundCloudItem', function(data){
         SC.stream('/' + data.kind + '/' + data.id, function(sound){
             soundObject = sound;
-            soundObject.start();
+            soundObject.play({
+                onfinish: function() {
+                    socket.emit('loadNextSong', 'omfgThisAppSucks');
+                }});
         });
     })
 };
@@ -25,7 +28,7 @@ var queueItem = function(link){
 };
 
 //Controls the SoundCloud player
-var mediaControl = function(command) {
+/*var mediaControl = function(command) {
     switch(command){
         case 'play':
             soundObject.play();
@@ -41,9 +44,9 @@ var mediaControl = function(command) {
             break;
         case 'previous':
             soundObject.previous();
-            break;*/
+            break;*//*
     }
-};
+};*/
 
 
 
